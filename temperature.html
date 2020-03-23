@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Temperature Class</title>
+</head>
+<body>
+<script>
+    let Temperature = function (Celcius) {
+        this.temperature = Celcius;
+        this.toFareinheit = function () {
+            return 32 + (this.temperature * 9) / 5;
+        };
+        this.toKenvin = function () {
+            return this.temperature + 273.15
+        }
+    };
+    let temp = new Temperature(25);
+    document.write("Độ F: " + temp.toFareinheit());
+    document.write("<br/>");
+    document.write("Độ K: " + temp.toKenvin());
+</script>
+</body>
+</html>
