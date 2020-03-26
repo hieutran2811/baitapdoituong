@@ -2,45 +2,105 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Mô tả điện thoại</title>
 </head>
 <body>
+<div class="iphone"  >
+    <p>Iphone</p>
+    <p>
+        <input id="iphone" type="text"></p>
+    <p>
+        <button onclick= "iphone.charge()">Sạc</button>
+        <button onclick= 'iphone.texting("iphone")'>Soạn tin</button>
+        <button onclick='iphone.setMess(nokia, "iphone","iphoneMess")' >Gửi</button>
+        <span id="iphoneMess"> </span>
+        <button onclick='iphone.getInbox("iphoneMess2")' >Hộp thư đến</button>
+        <span id="iphoneMess2"></span>
+        <button onclick="iphone.setSent()" >Đã gửi</button>
+        <span id="iphoneMess3"></span></p>
+</div>
+<div class="nokia"  >
+    <p>Nokia
+    <p>
+        <input id="nokia" type="text"></p>
+    <p>
+        <button onclick= "nokia.charge()">Sạc</button>
+        <button onclick= 'iphone.texting("nokia")'>Soạn tin</button>
+        <button onclick='nokia.setMess(iphone, "nokia", "nokiaMess")' >Gửi</button>
+        <span id="nokiaMess"></span>
+        <button onclick='nokia.getInbox("nokiaMess2")' >Hộp thư đến</button>
+        <span id="nokiaMess2"></span>
+        <button onclick="nokia.setSent1()" >Đã gửi</button>
+        <span id="nokiaMess3"></span></p>
+</div>
 <script>
-    let Mobile = function (batery, draft, inbox, sent, status) {
-        this.batery = batery;
-        this.draft = draft;
+    function Mobile(inbox,draft,sent,battery) {
+        this.battery = battery;
         this.inbox = inbox;
+        this.draft = draft;
         this.sent = sent;
-        this.status = status;
-        this.power = function () {
-            if(this.batery > 0)
-                this.status = !this.status;
-            else {
-                this.status = false;
+        this.on = true;
+        this.getBattery = function () {
+            return this.battery;
+        };
+        this.turnOn = function () {
+            this.on = true;
+        };
+        this.turnOff = function () {
+            this.on = false;
+        };
+        this.checkOn = function () {
+            if (this.on === true){
+                console.log("đang bật");
             }
-            this.batery --;
+            else {
+                console.log("đã tắt");
+            }
         };
         this.charge = function () {
-            this.batery = 100;
-            console.log("Pin đầy");
-        };
-        this.setDraft = function (message) {
-            if(this.status===true){
-                this.draft = message;
+            while(this.battery < 100){
+                this.battery ++;
+                console.log(this.battery)
             }
-            this.batery --;
+                alert("đã sạc đầy pin");
         };
-        this.sentMessage = function (mobile) {
-            if (this.status){
-                this.sent.push(this.draft);
-                mobile.inbox.push(this.draft);
-                this.draft = "";
+        this.setDraft = function (draft, phoneName ) {
+            draft = document.getElementById(phoneName).value;
+            if (this.on && this.battery > 0){
+                this.draft = draft;
+                this.battery --;
             }
-            this.batery --;
+            else {
+                console.log("không sử dụng được")
+            }
+        };
+        this.texting = function (inputName) {
+            document.getElementById(inputName).focus();
+        };
+        this.setMess = function (mobile, inputName, sentMessPhone) {
+            if (this.on && this.battery > 0) {
+                let draft = document.getElementById(inputName).value;
+                mobile.inbox.push(draft);
+                this.sent.push(draft);
+                this.battery--;
+                document.getElementById(sentMessPhone).innerText = this.sent.toString();
+            } else {
+                console.log("không gửi được");
+            }
+        };
+        this.getInbox = function (phoneName) {
+            document.getElementById(phoneName).innerText = this.inbox.toString();
+        };
+        this.setSent = function () {
+            this.sent =sent;
+            document.getElementById("iphoneMess3").innerText = this.sent;
+        };
+        this.setSent1 = function () {
+            document.getElementById("nokiaMess3").innerText = this.sent;
         }
-    };
-    let Samsung = new Mobile(100, "", [],[], true);
-    let Iphonex = new Mobile(100, "", [],[], true);
+    }
+    let iphone = new Mobile([],"",[],50);
+    let nokia = new Mobile([],"",[],50);
 </script>
 </body>
 </html>
