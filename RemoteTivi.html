@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    let Remote = function (key) {
+        this.key = key;
+        this.switchChannel = function (number,TiVi) {
+            if(TiVi.status===true){
+                TiVi.channel = number;
+            }
+        };
+        this.volumeUp = function (TiVi) {
+            if(TiVi.status===true){
+                TiVi.volume++;
+            }
+        };
+        this.volumeDown = function (TiVi) {
+            if(TiVi.status===true){
+                TiVi.volume--;
+            }
+        };
+        this.turnOff = function (TiVi) {
+            TiVi.status = false;
+        };
+        this.turnOn = function (TiVi) {
+            TiVi.status = true;
+        }
+    };
+    let TiVi = function (channel,volume,status) {
+        this.channel = channel;
+        this.volume = volume;
+        this.status = status;
+        this.switchChannel = function (number) {
+            if(this.status===true){
+                this.channel = number;
+            }
+        };
+        this.volumeUp = function () {
+            if(this.status===true){
+                this.volume++;
+            }
+        };
+        this.volumeDown = function () {
+            if(this.status===true){
+                this.volume--;
+            }
+        };
+        this.turnOff = function () {
+            TiVi.status = false;
+        };
+        this.turnOn = function () {
+            TiVi.status = true;
+        }
+    };
+    let Remote1 = new Remote(3);
+    let TiVi1 = new TiVi(2,0,false);
+    TiVi1.turnOn();
+    TiVi1.switchChannel(7);
+    Remote1.switchChannel(3,TiVi1);
+    TiVi1.volumeUp();
+    TiVi1.volumeUp();
+    Remote1.turnOff();
+</script>
+</body>
+</html>
